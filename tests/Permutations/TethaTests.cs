@@ -4,7 +4,6 @@ namespace Vee.Tests
 {
     public class TethaTests
     {
-
         [Fact]
         public void TethaRoundZero()
         {

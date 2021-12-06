@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace Vee
 {
-    internal static class Permutations
+    internal static partial class Permutations
     {
         internal static Span<ulong> Tetha(Span<ulong> input)
         {
