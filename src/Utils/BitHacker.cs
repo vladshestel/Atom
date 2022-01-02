@@ -5,7 +5,7 @@ namespace Vee
 {
     internal static class BitHacker
     {
-        public unsafe static Span<ulong> ToStateArray(Span<byte> input)
+        public unsafe static Span<ulong> ToStateArray(ReadOnlySpan<byte> input)
         {
             fixed (byte* pointer = input)
             {
@@ -18,6 +18,14 @@ namespace Vee
             fixed (ulong* pointer = input)
             {
                 return new ReadOnlySpan<byte>(pointer, input.Length * 8);
+            }
+        }
+
+        public unsafe static ulong ToState(ReadOnlySpan<byte> input) {
+            fixed (byte* pointer = input) {
+                var longed = (ulong*) pointer;
+
+                return *longed;
             }
         }
 
