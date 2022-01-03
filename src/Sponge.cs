@@ -6,6 +6,24 @@ namespace Vee
     {
         private const int BytesInLane = 8;
 
+        public static (int blocksCount, int lastBlockBytes) CountBlocks(ReadOnlySpan<byte> input, int width)
+        {
+            var count = input.Length / width;
+            var orphainBytes = input.Length % width;
+
+            return (
+                blocksCount: count,
+                lastBlockBytes: orphainBytes
+            );
+        }
+
+        public static void AbsorbBlock(Span<ulong> state, ReadOnlySpan<byte> block)
+        {
+            for (var i = 0; i < (block.Length / BytesInLane); i++) {
+                state[i] ^= BitHacker.ToState(block.Slice(i * BytesInLane, BytesInLane));
+            }
+        }
+
         public static void AbsorbPadded(Span<ulong> state, ReadOnlySpan<byte> input, int rate)
         {
             var lanesCount = (input.Length / BytesInLane);
