@@ -4,6 +4,10 @@ namespace Vee
 {
     internal class Sponge
     {
+        internal const int StateBits = 1600;
+        internal const int StateBytes = StateBits / 8;
+        internal const int StateWords = StateBytes / 8;
+        
         private const int BytesInLane = 8;
 
         public static (int blocksCount, int lastBlockBytes) CountBlocks(ReadOnlySpan<byte> input, int width)

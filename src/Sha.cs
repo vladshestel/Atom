@@ -6,31 +6,26 @@ namespace Vee
     {
         public static byte[] Hash256(ReadOnlySpan<byte> input)
         {
-            Span<ulong> state = stackalloc ulong[25];
+            const int digestBits = 256;
 
-            var rate = (1600 - 512) / 8;
-            var (blocksCount, lastBlockBytes) = Sponge.CountBlocks(input, rate);
+            // prepare all parameters compile-time
+            const int digestBytes = digestBits / 8;
+            const int capacityBytes = digestBytes * 2;
+            const int rateBytes = Sponge.StateBytes - capacityBytes;
 
-            // absorb input
-            for (var blockIndex = 0; blockIndex < blocksCount; blockIndex++) {
-                var block = input.Slice(blockIndex * rate, rate);
+            return Keccak.Hash(input, digestBytes, rateBytes);
+        }
 
-                Sponge.AbsorbBlock(state, block);
-                KeccakRounds.Iterate(state);
-            }
+        public static byte[] Hash512(ReadOnlySpan<byte> input)
+        {
+            const int digestBits = 512;
 
-            // absorb last block 
-            var lastBlock = input.Slice(blocksCount * rate, lastBlockBytes);
-            Sponge.AbsorbPadded(state, lastBlock, rate);
-            KeccakRounds.Iterate(state);
+            // prepare all parameters compile-time
+            const int digestBytes = digestBits / 8;
+            const int capacityBytes = digestBytes * 2;
+            const int rateBytes = Sponge.StateBytes - capacityBytes;
 
-            // squeezing
-            var result = new byte[256 / 8];
-            
-            var hashPortion = state.Slice(0, 256 / 8 / 8);
-            BitHacker.ToPlainState(hashPortion).CopyTo(result);
-            
-            return result;
+            return Keccak.Hash(input, digestBytes, rateBytes);
         }
     }
 }
