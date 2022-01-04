@@ -28,11 +28,20 @@ namespace Vee
 
             // squeezing
             var result = new byte[digestBytes];
-            
-            var hashPortion = state.Slice(0, digestWords);
-            BitHacker.ToPlainState(hashPortion).CopyTo(result);
+
+            Squeeze(state, result, rateBytes, digestBytes);
 
             return result;
+        }
+
+        internal static void Squeeze(Span<ulong> state, Span<byte> result, int rateBytes, int digestBytes)
+        {
+            var bytedState = BitHacker.ToPlainState(state);
+
+            var minimal = Math.Min(rateBytes, digestBytes);
+            
+            var hashPortion = bytedState.Slice(0, minimal);
+            hashPortion.CopyTo(result);
         }
 
         internal static Span<ulong> Apply(Span<ulong> state)
