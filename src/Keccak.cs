@@ -5,7 +5,7 @@ namespace Vee
 {
     internal static class Keccak
     {
-        internal static byte[] Hash(ReadOnlySpan<byte> input, int digestBytes, int rateBytes)
+        internal static byte[] Hash(ReadOnlySpan<byte> input, int digestBytes, int rateBytes, byte padding)
         {
             var digestWords = digestBytes >> 3;
 
@@ -23,7 +23,7 @@ namespace Vee
 
             // absorb last block 
             var lastBlock = input.Slice(blocksCount * rateBytes, lastBlockBytes);
-            Sponge.AbsorbPadded(state, lastBlock, rateBytes);
+            Sponge.AbsorbPadded(state, lastBlock, rateBytes, padding);
             KeccakRounds.Iterate(state);
 
             // squeezing

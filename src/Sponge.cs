@@ -7,6 +7,8 @@ namespace Vee
         internal const int StateBits = 1600;
         internal const int StateBytes = StateBits / 8;
         internal const int StateWords = StateBytes / 8;
+        internal const int ShaPadding = 0x06;
+        internal const int ShakePadding = 0x1f;
         
         private const int BytesInLane = 8;
 
@@ -28,7 +30,7 @@ namespace Vee
             }
         }
 
-        public static void AbsorbPadded(Span<ulong> state, ReadOnlySpan<byte> input, int rate)
+        public static void AbsorbPadded(Span<ulong> state, ReadOnlySpan<byte> input, int rate, byte padding)
         {
             var lanesCount = (input.Length / BytesInLane);
 
@@ -40,14 +42,12 @@ namespace Vee
 
             var remainingBytes = input.Slice(lanesCount * BytesInLane);
             remainingBytes.CopyTo(lastInputLane);
+            lastInputLane[remainingBytes.Length] ^= padding;
 
-            lastInputLane[remainingBytes.Length] ^= 0x06;
             state[lanesCount] ^= BitHacker.ToState(lastInputLane);
 
-            lastInputLane.Clear();
-            lastInputLane[BytesInLane - 1] = 0x80;
-
-            state[rate / 8 - 1] ^= BitHacker.ToState(lastInputLane);
+            var byted = BitHacker.ToPlainState(state);
+            byted[rate - 1] ^= 0x80;
         }
     }
 }

@@ -13,11 +13,11 @@ namespace Vee
             }
         }
 
-        public unsafe static ReadOnlySpan<byte> ToPlainState(ReadOnlySpan<ulong> input)
+        public unsafe static Span<byte> ToPlainState(Span<ulong> input)
         {
             fixed (ulong* pointer = input)
             {
-                return new ReadOnlySpan<byte>(pointer, input.Length * 8);
+                return new Span<byte>(pointer, input.Length * 8);
             }
         }
 
