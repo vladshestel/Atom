@@ -16,6 +16,18 @@ namespace Vee
             return Keccak.Hash(input, digestBytes, rateBytes, Sponge.ShaPadding);
         }
 
+        public static ISponge CreateSha224Sponge()
+        {
+            const int digestBits = 224;
+
+            // prepare all parameters compile-time
+            const int digestBytes = digestBits / 8;
+            const int capacityBytes = digestBytes * 2;
+            const int rateBytes = Sponge.StateBytes - capacityBytes;
+
+            return new Sponge(digestBytes, rateBytes, Sponge.ShaPadding);
+        }
+
         public static byte[] Hash256(ReadOnlySpan<byte> input)
         {
             const int digestBits = 256;
