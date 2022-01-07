@@ -24,7 +24,7 @@ namespace Vee.Tests
             };
             var packed = BitHacker.ToStateArray(input);
             
-            var hash = KeccakRounds.Iterate(packed);
+            var hash = KeccakPermutation.Iterate(packed);
             var unpacked = BitHacker.ToPlainState(hash).ToArray();
 
             var expectation = new byte[]

@@ -3,7 +3,7 @@ using static Vee.Permutations;
 
 namespace Vee
 {
-    internal static class KeccakRounds
+    internal static class KeccakPermutation
     {
         private static int l = 6;
         private static int Nr = 12 + 2 * l;

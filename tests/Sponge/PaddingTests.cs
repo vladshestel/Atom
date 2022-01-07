@@ -14,7 +14,7 @@ namespace Vee.Tests
             var binary = Encoding.UTF8.GetBytes(input);
             var rate = (1600 - 512) / 8;
             
-            Sponge.AbsorbPadded(state, binary, rate, Sponge.ShaPadding);
+            State.AbsorbPadded(state, binary, rate, Sponge.ShaPadding);
       
             var unpacked = BitHacker.ToPlainState(state).ToArray();
 
@@ -45,7 +45,7 @@ namespace Vee.Tests
             var input = new byte[0];
             var rate = (1600 - 512) / 8;
 
-            Sponge.AbsorbPadded(state, input, rate, Sponge.ShaPadding);
+            State.AbsorbPadded(state, input, rate, Sponge.ShaPadding);
             
             var unpacked = BitHacker.ToPlainState(state).ToArray();
 
@@ -77,7 +77,7 @@ namespace Vee.Tests
             var binary = Encoding.UTF8.GetBytes(input);
             var rate = (1600 - 256) / 8;
             
-            Sponge.AbsorbPadded(state, binary, rate, Sponge.ShakePadding);
+            State.AbsorbPadded(state, binary, rate, Sponge.ShakePadding);
       
             var unpacked = BitHacker.ToPlainState(state).ToArray();
 
@@ -109,7 +109,7 @@ namespace Vee.Tests
             var binary = Encoding.UTF8.GetBytes(input);
             var rate = (1600 - 512) / 8;
             
-            Sponge.AbsorbPadded(state, binary, rate, Sponge.ShakePadding);
+            State.AbsorbPadded(state, binary, rate, Sponge.ShakePadding);
       
             var unpacked = BitHacker.ToPlainState(state).ToArray();
 
