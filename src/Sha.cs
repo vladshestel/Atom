@@ -16,6 +16,19 @@ namespace Vee
             return Keccak.Hash(input, digestBytes, rateBytes, Sponge.ShaPadding);
         }
 
+        public static void Hash224(ReadOnlySpan<byte> input, Span<byte> buffer)
+        {
+            // todo assert buffer size
+            const int digestBits = 224;
+
+            // prepare all parameters compile-time
+            const int digestBytes = digestBits / 8;
+            const int capacityBytes = digestBytes * 2;
+            const int rateBytes = Sponge.StateBytes - capacityBytes;
+
+            Keccak.Hash(input, digestBytes, rateBytes, Sponge.ShaPadding, buffer);
+        }
+
         public static ISponge CreateSha224Sponge()
         {
             const int digestBits = 224;
@@ -38,6 +51,19 @@ namespace Vee
             const int rateBytes = Sponge.StateBytes - capacityBytes;
 
             return Keccak.Hash(input, digestBytes, rateBytes, Sponge.ShaPadding);
+        }
+
+        public static void Hash256(ReadOnlySpan<byte> input, Span<byte> buffer)
+        {
+            // todo assert buffer size
+            const int digestBits = 256;
+
+            // prepare all parameters compile-time
+            const int digestBytes = digestBits / 8;
+            const int capacityBytes = digestBytes * 2;
+            const int rateBytes = Sponge.StateBytes - capacityBytes;
+
+            Keccak.Hash(input, digestBytes, rateBytes, Sponge.ShakePadding, buffer);
         }
 
         public static ISponge CreateSha256Sponge()
@@ -64,6 +90,19 @@ namespace Vee
             return Keccak.Hash(input, digestBytes, rateBytes, Sponge.ShaPadding);
         }
 
+        public static void Hash384(ReadOnlySpan<byte> input, Span<byte> buffer)
+        {
+            // todo assert buffer size
+            const int digestBits = 384;
+
+            // prepare all parameters compile-time
+            const int digestBytes = digestBits / 8;
+            const int capacityBytes = digestBytes * 2;
+            const int rateBytes = Sponge.StateBytes - capacityBytes;
+
+            Keccak.Hash(input, digestBytes, rateBytes, Sponge.ShaPadding, buffer);
+        }
+
         public static ISponge CreateSha384Sponge()
         {
             const int digestBits = 384;
@@ -86,6 +125,19 @@ namespace Vee
             const int rateBytes = Sponge.StateBytes - capacityBytes;
 
             return Keccak.Hash(input, digestBytes, rateBytes, Sponge.ShaPadding);
+        }
+
+        public static void Hash512(ReadOnlySpan<byte> input, Span<byte> buffer)
+        {
+            // todo assert buffer size
+            const int digestBits = 512;
+
+            // prepare all parameters compile-time
+            const int digestBytes = digestBits / 8;
+            const int capacityBytes = digestBytes * 2;
+            const int rateBytes = Sponge.StateBytes - capacityBytes;
+
+            Keccak.Hash(input, digestBytes, rateBytes, Sponge.ShaPadding, buffer);
         }
 
         public static ISponge CreateSha512Sponge()
