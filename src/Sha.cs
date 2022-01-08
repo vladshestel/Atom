@@ -111,6 +111,16 @@ namespace Vee
             return Keccak.Hash(input, outputBytes, rateBytes, Sponge.ShakePadding);
         }
 
+        public static ISponge CreateExtendableSponge(int outputBytes)
+        {
+            // todo assert output bytes length
+            const int capacityBits = 256;
+            const int capacityBytes = capacityBits / 8;
+            const int rateBytes = Sponge.StateBytes - capacityBytes;
+
+            return new Sponge(outputBytes, rateBytes, Sponge.ShakePadding);
+        }
+
         public static byte[] ExtendableHashStrong(ReadOnlySpan<byte> input, int outputBytes)
         {
             // todo assert output bytes length
@@ -120,6 +130,17 @@ namespace Vee
             const int rateBytes = Sponge.StateBytes - capacityBytes;
 
             return Keccak.Hash(input, outputBytes, rateBytes, Sponge.ShakePadding);
+        }
+
+        public static ISponge CreateStrongExtendableSponge(int outputBytes)
+        {
+            // todo assert output bytes length
+
+            const int capacityBits = 512;
+            const int capacityBytes = capacityBits / 8;
+            const int rateBytes = Sponge.StateBytes - capacityBytes;
+
+            return new Sponge(outputBytes, rateBytes, Sponge.ShakePadding);
         }
     }
 }
